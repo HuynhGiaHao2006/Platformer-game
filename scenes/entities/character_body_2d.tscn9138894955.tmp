@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://c7y1s5tx16k0c"]
+
+[ext_resource type="Script" uid="uid://c730qo361rmhp" path="res://scripts/character_body_2d.gd" id="1_rkyj4"]
+[ext_resource type="Texture2D" uid="uid://de5wf7al0hknv" path="res://graphics/characters/player.png" id="2_gywni"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5cc2a"]
+
+[sub_resource type="Animation" id="Animation_233x1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [9]
+}
+
+[sub_resource type="Animation" id="Animation_gywni"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [16]
+}
+
+[sub_resource type="Animation" id="Animation_5jixi"]
+resource_name = "jump"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [17]
+}
+
+[sub_resource type="Animation" id="Animation_vruwv"]
+resource_name = "moving"
+length = 1.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [9, 10, 11, 12, 13, 14, 15]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5jixi"]
+_data = {
+&"RESET": SubResource("Animation_233x1"),
+&"idle": SubResource("Animation_gywni"),
+&"jump": SubResource("Animation_5jixi"),
+&"moving": SubResource("Animation_vruwv")
+}
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1846324753]
+script = ExtResource("1_rkyj4")
+
+[node name="Legs" type="Sprite2D" parent="." unique_id=563277260]
+position = Vector2(0, -7)
+texture = ExtResource("2_gywni")
+hframes = 8
+vframes = 3
+frame = 9
+
+[node name="Torso" type="Sprite2D" parent="." unique_id=30540326]
+position = Vector2(0, -8)
+texture = ExtResource("2_gywni")
+hframes = 8
+vframes = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=666924214]
+shape = SubResource("CapsuleShape2D_5cc2a")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=314943207]
+zoom = Vector2(3, 3)
+
+[node name="ReloadTimer" type="Timer" parent="." unique_id=1488467292]
+wait_time = 0.5
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2041524767]
+root_node = NodePath("../Legs")
+libraries/ = SubResource("AnimationLibrary_5jixi")
+autoplay = &"idle"
